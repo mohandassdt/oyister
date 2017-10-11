@@ -1,0 +1,22 @@
+{
+  "name": "oyister_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "digitalmeridian",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "jsonwebtoken": "^8.0.1",
+    "mongoose": "^4.10.8",
+    "nodemailer": "^4.1.0",
+    "path": "^0.12.7",
+    "socket.io": "^2.0.3"
+  }
+}
