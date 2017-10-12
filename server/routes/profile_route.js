@@ -143,8 +143,11 @@ res.send(userlist);
             if(profiledetails[i].city === undefined){
           profiledetails[i].city="";
             }
-          if(friendslist[j].friend===profiledetails[i].user_name && profiledetails[i].user_name != req.body.user_name ){
-        if(friendslist[j].status != "He Blocked"){
+            if(friendlist[j].friend !=profiledetails[i].user_name && profiledetails[i].user_name != req.body.user_name ){
+              userlist.push(profiledetails[i]);
+            }
+          if(friendlist[j].friend===profiledetails[i].user_name && profiledetails[i].user_name != req.body.user_name ){
+        if(friendlist[j].status != "He Blocked"){
           var details=profiledetails[i];
           userlist.push(details);
         }}}
@@ -160,7 +163,7 @@ router.post('/getUsersByText',function(req,res){
   var userlist=[];
   Profile.find({user_name:req.body.user_name},{_id:true,friends_list:true},function(err,docs){
   var friedslist=docs[0].friends_list;
-  Profile.find({user_name:{$regex:req.body.text, $options: 'i'}},{user_name:true,name:true,city:true,country_of_stay:true},function(err,docs){
+  Profile.find({user_name:{$regex:req.body.text, $options: 'i'}},{user_name:true,profile_image:true,name:true,city:true,country_of_stay:true},function(err,docs){
     console.log(docs);
     var profiledetails=docs;
     if(friedslist.length>0){
@@ -175,12 +178,15 @@ router.post('/getUsersByText',function(req,res){
           if(profiledetails[i].city === undefined){
         profiledetails[i].city="";
           }
-        if(friendslist[j].friend===profiledetails[i].user_name){
-      if(friendslist[j].status != "He Blocked" && profiledetails[i].user_name != req.body.user_name){
-        var friend_status=friendslist[j].status;
+          if(friendlist[j].friend !=profiledetails[i].user_name && profiledetails[i].user_name != req.body.user_name ){
+            userlist.push(profiledetails[i]);
+          }
+        if(friedslist[j].friend===profiledetails[i].user_name){
+      if(friedslist[j].status != "He Blocked" && profiledetails[i].user_name != req.body.user_name){
+        var friend_status=friedslist[j].status;
         var details=profiledetails[i];
-        var value={friend_status,details};
-        userlist.push(value);
+
+        userlist.push(details);
       }}}}
       res.send(value);
     }else{
@@ -197,8 +203,8 @@ router.post('/getUsersByText',function(req,res){
         if(profiledetails[i].user_name != req.body.user_name){
           var friend_status="NEW";
           var details=profiledetails[i];
-          var value={friend_status,details};
-          userlist.push(value);
+
+          userlist.push(details);
         }
       }
       res.send(userlist);
