@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var Counrtes = require('../assestes/countries.json');
+var Countries = require('../assestes/countries.json');
 var Languages = require('../assestes/languages.json');
-var data={Counrtes,Languages};
+var Nationalities=[{nationality:"Indian"},{nationality:"American"}];
+var data={Countries,Languages,Nationalities};
 router.get('/getdatalist', function (req,res) {
 res.send(data);
 });

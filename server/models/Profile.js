@@ -4,16 +4,18 @@ user_name:{
   type:String
 },
 email:{
-  type:String,
-  unique:true
+  type:String
 },
 name:{
   type:String
-}
-profile_image:{
-type:String,
 },
-languages:{
+profile_image:{
+type:String
+},
+language:{
+  type:String
+},
+languages_known:{
   type:Array
 },
 Nationality:{
@@ -27,6 +29,18 @@ city:{
 },
 dob:{
   type:String
+},
+friends_list:{
+  type:Array
+},
+gps_location:{
+  type:String
+},
+profile_description:{
+  type:String
+},
+private_messages:{
+  type:Array
 },
 prefered_categories:{
   type:Array

@@ -6,7 +6,7 @@ email:{
 otp:{
   type:String
 },
-createDate:  {type: Date, expireAfter3Minutes:'200', default: Date.now }
+createDate:  {type: Date, expires:'30s' }
 });
 
 module.exports = mongoose.model('Session', SessionSchema, 'Session');

@@ -13,8 +13,10 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.1",
     "express": "^4.15.4",
+    "express-fileupload": "^0.3.0",
     "jsonwebtoken": "^8.0.1",
     "mongoose": "^4.10.8",
+    "mongoose-pagination": "^1.0.0",
     "nodemailer": "^4.1.0",
     "path": "^0.12.7",
     "socket.io": "^2.0.3"

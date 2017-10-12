@@ -9,32 +9,41 @@ var nodemailer = require('nodemailer');
 router.post('/signup', function(req, res) {
     var newUser = new User();
     var newprofile=new Profile();
-    newUser.user_name = req.body.user_name;
+    console.log(req.body);
     newUser.email = req.body.email;
     newUser.Password = newUser.generateHash(req.body.password);
-newprofile.user_name=req.body.user_name;
+newUser.user_type=req.body.user_type;
 newprofile.email=req.body.email;
-newprofile.languages=req.body.languages;
+newprofile.email=req.body.email;
+newprofile.language=req.body.language;
+newprofile.languages_known=req.body.languages_known;
 newprofile.Nationality=req.body.Nationality;
 newprofile.country_of_stay=req.body.country_of_stay;
+newprofile.profile_image="defaultimage.png"
 newUser.authenticated=false;
-// if(req.body.user_name != undefined){
-// newUser.user_type="EMAIL-USER";
-// newUser.authenticated=false;
-// }
-// if(req.body.email != undefined){
-// newUser.user_type="FACEBOOK-USER";
-// newUser.authenticated=true;
-// }
-    User.find({email: req.body.email,user_name: req.body.user_name}, function (err, docs) {
+if(req.body.user_type === 1){
+  newprofile.user_name=req.body.email;
+  newUser.user_name=req.body.email;
+newUser.user_type="EMAIL-USER";
+newUser.authenticated=false;
+}else{
+  newprofile.user_name=req.body.email;
+  newUser.user_name=req.body.email;
+newUser.user_type="FACEBOOK-USER";
+newUser.authenticated=true;
+}
+    User.find({user_name: req.body.email}, function (err, docs) {
+      console.log(docs.length);
 if(docs.length===0){
-
     newUser.save(function(err) {
         if (err) {
             res.json(err);
         } else {
           newprofile.save(function(err){
             if(!err){
+          if(req.body.user_type != 1){
+res.send({"status":"1","message":"Singup successfull. Your account is now ready to use"});
+          }else{
               var tosend=req.body.email;
               var mailresult;
               var otp=Math.floor((Math.random() * 1000000) + 1);
@@ -45,7 +54,7 @@ if(docs.length===0){
                   var transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                      user: tosend,
+                      user: "oyisterdevelope@gmail.com",
                       pass: 'oyister123'
                     }
                   });
@@ -62,8 +71,11 @@ if(docs.length===0){
                       mailresult=error;
                       res.send({status:0,message:"Your email ID is not valid"});
                     } else {
-                    mailresult='Email sent: ' + info.response;
-            res.send({status:1,message:"OTP has been sent to your email ID"});
+                    // mailresult='Email sent: ' + info.response;
+            res.send({
+              "status":1,
+              "message":"OTP has been sent to your email ID"
+            });
                     }
                   });
 
@@ -77,12 +89,7 @@ if(docs.length===0){
                 }
 
               })
-              // res.json({
-              //     success: true,
-              //     message:"Succesfully Registred !!!",
-              //     status:1
-              // });
-            } })
+            } }})
         }});
       }
 else{
@@ -104,6 +111,9 @@ if(docs.length === 0){
   var newSession=new Session();
   newSession.email=tosend;
   newSession.otp=otp;
+  var twentyMinutesLater = new Date();
+twentyMinutesLater.setMinutes(twentyMinutesLater.getMinutes() + 2);
+  newSession.createDate=twentyMinutesLater;
   newSession.save(function(err){
     console.log("success");
    })
@@ -142,6 +152,7 @@ else{
 });
 
 router.post('/login', function(req, res) {
+  var Password= req.body.password;
     User.findOne({
         email: req.body.email
     }, function(err, user) {
@@ -153,7 +164,7 @@ router.post('/login', function(req, res) {
                 status:0,
                 message: 'Sorry wrong email id'
             });
-        } else if (!user.validPassword(req.body.Password)) {
+        } else if (!user.validPassword(Password)) {
 
             res.json({
                 status: 0,
@@ -166,7 +177,7 @@ router.post('/login', function(req, res) {
             // });
             res.json({
                 status: 1,
-                // token: token,
+                message:"login success",
                 isLoggedIn: true,
                 userDetail: user
             });

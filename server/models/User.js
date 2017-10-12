@@ -5,8 +5,7 @@ user_name:{
   type:String
 },
 email:{
-  type:String,
-  unique:true
+  type:String
 },
 Password:{
 type:String
