@@ -39,7 +39,7 @@ gps_location:{
 profile_description:{
   type:String
 },
-private_messages:{
+following:{
   type:Array
 },
 prefered_categories:{

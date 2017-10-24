@@ -7,5 +7,7 @@ var data={Countries,Languages,Nationalities};
 router.get('/getdatalist', function (req,res) {
 res.send(data);
 });
-
+// router.get('/getlanguagelist', function (req,res) {
+// res.send(Languages);
+// });
 module.exports = router;
